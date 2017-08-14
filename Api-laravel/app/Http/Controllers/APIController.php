@@ -9,27 +9,7 @@ class APIController extends Controller
     
     
     
-   /**
-    * API calls this function
-    * @param Request $request
-    * @return type JSON Array
-    */
-    static function weeklyGraph(Request $request) {
-    $token = $request->header('Token');  
-    $auth=ApiProducer::requestToken ($token);
-    if($auth==false){
-     return response()->json(['success' => false, 'content' => ['message' => "Invalid token.",
-        'result' => null]]);    
-    }else{
-    $result = ApiProducer::getWeeklygraphData();
-    if (count($result) > 0) {
-    print json_encode($result, JSON_NUMERIC_CHECK);
-    } else {
-    return response()->json(['success' => false, 'content' => ['message' => "Invalid data.",
-        'result' => null]]); 
-    }
-    }
-    }
+  
     
     /**
      * 
@@ -37,7 +17,7 @@ class APIController extends Controller
      */
     public function getAllArticles(){
         
-    $info=ApiProducer::getArticles (false);    
+    $info=ApiProducer::getArticles (0,false);    
     return response()->json($info['data'], $info['status']);
     }
     
@@ -45,8 +25,8 @@ class APIController extends Controller
      * 
      * @return JSON Array
      */
-    public function getOneArticle(){
-        $info=ApiProducer::getArticles (1);  
+    public function getOneArticle(Request $request,$offset){
+        $info=ApiProducer::getArticles ($offset,1);  
        // return response()->json($info);   
         return response()->json($info['data'], $info['status']);
       
@@ -59,7 +39,7 @@ class APIController extends Controller
     
         $info = ApiProducer::createArticle($request->all());
 
-        return response()->json($info['data'], $info['status']);
+        return response()->json( ['data'=>$info['data']], $info['status']);
     }
     
     
@@ -76,9 +56,18 @@ class APIController extends Controller
     {//return response()->json("test");  
          $info =ApiProducer::deleteArticle($request->all(),$id);
 
-        return response()->json($info['data'], $info['status']);
+        return response()->json(['data'=>$info['data']], $info['status']);
     }
     
+    
+    public function updateArticle(Request $request,$id)
+    {
+        
+    
+        $info = ApiProducer::updateArticle($request->all(),$id);
+
+        return response()->json( ['data'=>$info['data']], $info['status']);
+    }
     
 	
 }

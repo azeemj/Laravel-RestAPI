@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 
 //get single article
 
-Route::get('/v1/single-article','APIController@getOneArticle');
+Route::get('/v1/single-article/{article}','APIController@getOneArticle');
 
 //get all articles 
 

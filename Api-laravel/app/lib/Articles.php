@@ -59,7 +59,7 @@ class Articles {
             }
 
             $article->save();
-            return $article;
+            return $article->id;
         } catch (\Illuminate\Database\QueryException $e) {
 
             return $e;
