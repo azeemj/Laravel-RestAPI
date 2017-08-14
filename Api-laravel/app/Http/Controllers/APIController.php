@@ -30,5 +30,37 @@ class APIController extends Controller
     }
     }
     }
+    
+    /**
+     * 
+     * @return JSON Array
+     */
+    public function getAllArticles(){
+        
+    $info=ApiProducer::getArticles (false);    
+    return response()->json($info['data'], $info['status']);
+    }
+    
+    /**
+     * 
+     * @return JSON Array
+     */
+    public function getOneArticle(){
+        $info=ApiProducer::getArticles (1);  
+       // return response()->json($info);   
+        return response()->json($info['data'], $info['status']);
+      
+    }
+    
+    
+    public function store(Request $request)
+    {
+        
+    
+        $info = ApiProducer::create($request->all());
+
+        return response()->json($info['data'], $info['status']);
+    }
+    
 	
 }
