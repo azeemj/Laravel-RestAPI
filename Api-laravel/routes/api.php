@@ -13,14 +13,24 @@ use Illuminate\Http\Request;
 |
 */
 
+//get single article
+
+Route::get('/v1/single-article','APIController@getOneArticle');
+
+//get all articles 
+
+Route::get('/v1/all-articles','APIController@getAllArticles');
 
 
+//create author
 
-Route::get('/v1/onboarding','APIController@weeklyGraph');
 
-Route::get('/test',function(){
+//create article
+Route::post('/v1/create-article', 'APIController@store');
 
-	  return response()->json(['success' => false, 'content' => ['message' => "Invalid token.",
-        'result' => null]]);
-	
-});
+
+//update article
+
+//delete article
+
+
