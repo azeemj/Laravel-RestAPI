@@ -26,4 +26,29 @@ class Authors {
         }
     }
     
+    /**
+     * 
+     * @param type $request
+     * @return array|| INT
+     */
+     static function create($request) {
+        
+        try{
+            
+        
+        $author = new Author();
+        
+        if (isset($request['name'])) {
+        $author->name = $request['name'];
+        }
+       
+        
+        $author->save(); //return 1;
+        return $author->id;
+        } catch ( \Illuminate\Database\QueryException $e) {
+    
+            return $e;
+        }
+    }
+    
 }

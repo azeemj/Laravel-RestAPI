@@ -21,7 +21,9 @@
         ],
         "files": [
             
-            "app/lib/ApiProducer.php"
+            "app/lib/ApiProducer.php",
+             "app/lib/Articles.php",
+              "app/lib/Authors.php"
            
         ],
         "psr-4": {

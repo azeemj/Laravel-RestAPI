@@ -23,14 +23,18 @@ Route::get('/v1/all-articles','APIController@getAllArticles');
 
 
 //create author
-
+Route::post('/v1/create-author', 'APIController@storeAuthor');
 
 //create article
-Route::post('/v1/create-article', 'APIController@store');
+Route::post('/v1/create-article', 'APIController@storeArticle');
 
 
 //update article
+Route::put('/v1/update-article/{article}', 'APIController@updateArticle');
+
+
+
 
 //delete article
 
-
+Route::delete('/v1/delete-article/{article}', 'APIController@deleteArticle');

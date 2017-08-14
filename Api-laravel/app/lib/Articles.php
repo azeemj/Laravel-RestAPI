@@ -111,4 +111,24 @@ class Articles {
         }
     }
 
+    public static function deleteArticle($request, $id) {
+
+        $article = \App\Article::find($id);
+
+        if (count($article) > 0) {
+
+
+            try {
+            $article->delete(); 
+            return $id;
+            } catch (\Illuminate\Database\QueryException $e) {
+
+                return $e;
+            }
+        } else {
+            return -1;
+        }
+    }
+  
+    
 }
