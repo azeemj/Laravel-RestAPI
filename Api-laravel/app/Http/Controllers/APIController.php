@@ -53,14 +53,32 @@ class APIController extends Controller
     }
     
     
-    public function store(Request $request)
+    public function storeArticle(Request $request)
     {
         
     
-        $info = ApiProducer::create($request->all());
+        $info = ApiProducer::createArticle($request->all());
 
         return response()->json($info['data'], $info['status']);
     }
+    
+    
+     public function storeAuthor(Request $request)
+    {
+        
+    
+        $info = ApiProducer::createAuthor($request->all());
+
+        return response()->json($info['data'], $info['status']);
+    }
+    
+     public function deleteArticle(Request $request,$id)
+    {//return response()->json("test");  
+         $info =ApiProducer::deleteArticle($request->all(),$id);
+
+        return response()->json($info['data'], $info['status']);
+    }
+    
     
 	
 }
