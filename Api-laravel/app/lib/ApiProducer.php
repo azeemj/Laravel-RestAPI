@@ -18,9 +18,9 @@ class ApiProducer {
         
     }
 
-    static function getArticles($limit) {
+    static function getArticles($offset=0,$limit) {
         $output = array();
-        $article = Articles::getArticles($limit);
+        $article = Articles::getArticles($offset,$limit);
         // print_r($article);  
         if ($limit == false) {
             $summary = "summary";
@@ -74,7 +74,7 @@ class ApiProducer {
                         return array("data" => $article, "status" => Config::get('constants.Badrequest'));
                     } else {
 
-                        return array("data" => $article, "status" => Config::get('constants.Success'));
+                        return array("data" => $article, "status" => Config::get('constants.Objectcreated'));
                     }
                 }
             } else {
@@ -99,7 +99,7 @@ class ApiProducer {
                     return array("data" => $author, "status" => Config::get('constants.Badrequest'));
                 } else {
 
-                    return array("data" => $author, "status" => Config::get('constants.Success'));
+                    return array("data" => $author, "status" => Config::get('constants.Objectcreated'));
                 }
             }
         } catch (Exception $ex) {

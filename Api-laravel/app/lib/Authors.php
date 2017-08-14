@@ -44,7 +44,7 @@ class Authors {
        
         
         $author->save(); //return 1;
-        return $author->id;
+        return $author;
         } catch ( \Illuminate\Database\QueryException $e) {
     
             return $e;

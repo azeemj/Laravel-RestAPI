@@ -21,13 +21,13 @@ class Articles {
 
 
 
-    static function getArticles($limit) {
+    static function getArticles($start,$limit) {
         $output = '';
         if ($limit == false) {
             $output = Article::all();
         } else {
 
-            $output = Article::take($limit)->get();
+            $output = Article::take($limit)->offset($start)->get();
             /* if(count($output)>0){
               // echo  $output[0]->Authorinfo->name;
               $output[0]->author=$output[0]->Authorinfo->name;;
@@ -59,7 +59,7 @@ class Articles {
             }
 
             $article->save();
-            return $article->id;
+            return $article;
         } catch (\Illuminate\Database\QueryException $e) {
 
             return $e;
