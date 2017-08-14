@@ -12,6 +12,7 @@ class Article extends Model
      
      
      public function Authorinfo() {
-        return $this->belongsTo('Author','id');
+        return $this->belongsTo('App\Author','author_id','id');
+        
     }
 }
