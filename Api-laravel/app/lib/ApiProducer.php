@@ -65,6 +65,11 @@ class ApiProducer {
     static function create($request){
     $output=array();    
     try {
+        
+        if (isset($request['url']) && $request['url']=="") {
+         return array("data"=>"URL cannot be empty","status"=> Config::get('constants.Badrequest'));    
+            
+        }
         if (isset($request['author_id']) && $request['author_id']!="") {
         $author=Authors::getAuthorId($request['author_id']); 
         //return array("data"=>$authour,"status"=> Config::get('constants.Success')); 
