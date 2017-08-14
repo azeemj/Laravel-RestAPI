@@ -44,6 +44,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+     
+       if($request->is('api/*')){
+        return response()->json([
+            'error_message' => $exception->getMessage(),
+            'status' => Response::HTTP_BAD_REQUEST
+        ]);
+    }
         return parent::render($request, $exception);
     }
 
@@ -59,6 +66,12 @@ class Handler extends ExceptionHandler
         if ($request->expectsJson()) {
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
+        if($request->is('api/*')){
+        return response()->json([
+            'error_message' => $exception->getMessage(),
+            'status' => Response::HTTP_BAD_REQUEST
+        ]);
+    }
 
         return redirect()->guest('login');
     }
