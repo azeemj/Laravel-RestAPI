@@ -6,7 +6,9 @@ namespace App\Lib;
  * This is used to produce the needed data 
  */
 
-use App\UsersInfo;
+use App\Lib\Articles;
+use App\Lib\Authors;
+
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -17,70 +19,84 @@ class ApiProducer {
         
     }
 
-    /**
-     * validate the API authentication
-     * @param type $apikey
-     * @return boolean
-     */
-    Static function requestToken($apikey) {
-
-        $id = $apikey;
-        //check whether token exist or not 
-        $key = \Config::get('constants.api_key');
-        if ($id == $key) {
-            return true;
-        } else {
-            return false;
+   
+    
+  
+    static function getArticles($limit){
+    $output=array();
+    $article=Articles::getArticles($limit);   
+   // print_r($article);  
+    if($limit==false){
+    $summary="summary"    ;
+    }else{
+       $summary="content"    ;   
+    }
+    if(count($article)>0){
+        $i=0;
+        foreach($article as $article_val){
+          $output[$i]['id']=$article_val['id'];
+          $output[$i]["title"]=$article_val['title'];
+          $output[$i]["author"]=$article_val->Authorinfo->name;;
+          $output[$i][$summary]=$article_val['content'];  
+          $output[$i]["url"]=$article_val['url'];
+          $output[$i]["createdAt"]=$article_val['created_at']->toDateString();
+            $i++;
         }
+        
+        
+        if($limit==false){
+        return array("data"=>$output,"status"=> Config::get('constants.Success'));    
+
+        }else{
+        return array("data"=>$output[0],"status"=> Config::get('constants.Success'));    
+        }    
+
+        
+    }else{
+         return array("data"=>$output,"status"=> Config::get('constants.Success'));  
     }
-
-    /**
-     * getting weekly data from DB
-     * @param none
-     * @return Object array
-     */
-    static function getWeeklyData() {
-        $records = \App\UsersInfo::orderBy(DB::raw("WEEK(  `created_at` ) "))
-                        ->select(DB::raw("
-    SUM(onboarding_perentage) / COUNT(  'user_id' )AS avg_perecentage"
-                                ), DB::raw("COUNT( user_id)AS usercount"), DB::raw("WEEK(  `created_at` )AS week ")
-                        )->groupBy(DB::raw("WEEK(  `created_at` ) "))->groupBy("onboarding_perentage")->get();
-
-        return $records;
+    
+  
+    
+    //return  $article;   
     }
+    
+    
+    static function create($request){
+    $output=array();    
+    try {
+        if (isset($request['author_id']) && $request['author_id']!="") {
+        $author=Authors::getAuthorId($request['author_id']); 
+        //return array("data"=>$authour,"status"=> Config::get('constants.Success')); 
+        if($author == "-1"){
+          return array("data"=>"No valid author id ","status"=> Config::get('constants.Badrequest'));     
 
-    /**
-     * arranging weekly data for graph 
-     * @param none
-     * @return Object array
-     */
-    static function getWeeklygraphData() {
-        $arr = self::getWeeklyData();
-        $output = [];
-        $rslt = array();
-        $week = '';
+          } else{
+           $article=Articles::create($request);  
+           
+           if( is_array($article)){
+           return array("data"=>$article,"status"=> Config::get('constants.Badrequest'));      
+           }else{
+               
+             return array("data"=>$article,"status"=> Config::get('constants.Success'));     
+             
+           }
+          } 
 
-        $i = 0;
-        foreach ($arr as $val) {
 
-            if ($week != '' && $week < $val['week']) {
-                $week = $val['week'];
-                $output[$i]['name'] = "Week" . ($i + 1);
-                $output[$i]['data'] = $week_array;
-                $week_array = array();
-                $i++;
-            }
-
-            if ($val['week'] != "" && $week == $val['week']) {
-                $week_array[] = [$val['avg_perecentage'], $val['usercount']];
-                ;
-            } else {
-                $week = $val['week'];
-                $week_array[] = [$val['avg_perecentage'], $val['usercount']];
-                ;
-            }
+        }else{
+            return array("data"=>"No author id is given","status"=> Config::get('constants.Badrequest'));  
         }
-        return $output;
+
+      
+
+    
+    
+    }catch(Exception $ex) {
+        
+     return array("data"=>$ex,"status"=> Config::get('constants.Badrequest'));     
     }
+}
+
 
 }
