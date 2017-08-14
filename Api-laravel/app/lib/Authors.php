@@ -15,6 +15,10 @@
 class Authors {
     //put your code here
     
+     public function __construct() {
+        
+    }
+    
     public static function getAuthorId($id) {
 
         $author = Author::where('id', '=', $id)->first();

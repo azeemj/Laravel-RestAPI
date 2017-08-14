@@ -18,6 +18,13 @@ class ApiProducer {
         
     }
 
+    
+    /**
+     * get articles
+     * @param int $offset
+     * @param int $limit
+     * @return array
+     */
     static function getArticles($offset=0,$limit) {
         $output = array();
         $article = Articles::getArticles($offset,$limit);
@@ -54,7 +61,13 @@ class ApiProducer {
 
         //return  $article;   
     }
-
+    
+    
+   /**
+    * create article
+    * @param  $request
+    * @return array
+    */
     static function createArticle($request) {
         $output = array();
         try {
@@ -86,6 +99,11 @@ class ApiProducer {
         }
     }
 
+    /**
+     * creating author
+     * @param type $request
+     * @return array
+     */
     static function createAuthor($request) {
         $output = array();
         try {
@@ -108,6 +126,12 @@ class ApiProducer {
         }
     }
 
+    /**
+     * Updating article
+     * @param type $request
+     * @param type $id
+     * @return array
+     */
     static function updateArticle($request, $id) {
 
         try {
@@ -131,6 +155,12 @@ class ApiProducer {
         }
     }
     
+    /**
+     * delete article
+     * @param type $request
+     * @param type $id
+     * @return type
+     */
     static function deleteArticle($request, $id) {
 
         try {

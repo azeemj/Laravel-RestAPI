@@ -19,8 +19,15 @@ class Articles {
 
     //put your code here
 
-
-
+ public function __construct() {
+        
+    }
+    /**
+     * getting articles
+     * @param int $start
+     * @param int $limit
+     * @return object array |empty
+     */
     static function getArticles($start,$limit) {
         $output = '';
         if ($limit == false) {
@@ -28,16 +35,17 @@ class Articles {
         } else {
 
             $output = Article::take($limit)->offset($start)->get();
-            /* if(count($output)>0){
-              // echo  $output[0]->Authorinfo->name;
-              $output[0]->author=$output[0]->Authorinfo->name;;
-              //array_push($output->author,  "test")   ;
-              } */
+           
         }
 
         return $output;
     }
 
+    /**
+     * store article
+     * @param type $request
+     * @return int|array
+     */
     static function create($request) {
 
         try {
@@ -66,6 +74,11 @@ class Articles {
         }
     }
 
+    /**
+     * 
+     * @param type $id
+     * @return int | object array
+     */
     public static function getArticleId($id) {
 
         $article = Article::where('id', '=', $id)->first();
@@ -76,6 +89,14 @@ class Articles {
             return $article;
         }
     }
+    
+    
+    /**
+     * updateing article
+     * @param type $request
+     * @param type $id
+     * @return int |Array
+     */
 
     public static function updateArticle($request, $id) {
 
@@ -111,6 +132,12 @@ class Articles {
         }
     }
 
+    /**
+     * deleting article
+     * @param type $request
+     * @param type $id
+     * @return int | Array
+     */
     public static function deleteArticle($request, $id) {
 
         $article = \App\Article::find($id);
