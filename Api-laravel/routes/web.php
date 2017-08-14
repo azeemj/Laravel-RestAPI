@@ -14,7 +14,7 @@
 
 
 Route::get('/', function () {
-    return view('welcome');
+      return response()->json(['error' => 'Not found.'], 404);
 });
 
 
