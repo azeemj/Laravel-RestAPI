@@ -1,7 +1,6 @@
 #Welcome Aboard !
 
 
-This starter template is boostrapped with Laravel 5.3, VueJS 2.0, VueRouter,VueResource and so much more !
 
 
 
